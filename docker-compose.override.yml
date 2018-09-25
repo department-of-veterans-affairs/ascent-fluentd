@@ -1,0 +1,9 @@
+version: '3.3'
+services:
+    fluentd:
+        build:
+            context: .
+    
+networks:
+    logging:
+        driver: bridge

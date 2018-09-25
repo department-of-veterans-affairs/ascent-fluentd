@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+    fluentd:
+        image: ascent/fluentd
+        ports:
+            - '24224:24224'
+        environment:
+            - ES_HOST=${ES_HOST:-https://vpc-logging-dev-2q6xjy5atrwwyc7mw7cu3c2uae.us-gov-west-1.es.amazonaws.com}
+            - ES_PORT=443
+            - SCHEME=https
+            - SSL_VERIFY=true
+        networks:
+            - logging
+        deploy:
+            mode: global
+            placement:
+                constraints:
+                    - node.role == worker
+networks:
+    logging:
+        driver: overlay
