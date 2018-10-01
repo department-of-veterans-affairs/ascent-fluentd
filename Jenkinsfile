@@ -1,4 +1,4 @@
-@Library('ascent@plat-336') _
+@Library('ascent') _
 
 dockerPipeline {
     dockerBuilds = [
