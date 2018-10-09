@@ -4,6 +4,7 @@ services:
         image: ascent/fluentd:${RELEASE_VERSION:-latest}
         ports:
             - '24224:24224'
+            - '8888:8888'
         environment:
             - ES_HOST=${ES_HOST:-https://vpc-logging-dev-2q6xjy5atrwwyc7mw7cu3c2uae.us-gov-west-1.es.amazonaws.com}
             - ES_PORT=443
@@ -16,6 +17,13 @@ services:
             placement:
                 constraints:
                     - node.role == worker
+            update_config:
+              parallelism: 1
+              delay: 10s
+              failure_action: rollback
+              monitor: 10s
+        healthcheck:
+          test: ["CMD", "curl", "-f", "-X", "POST", "-d", "json={\"json\":\"healthcheck\"}", "http://localhost:8888/healthcheck.test"]
 networks:
     logging:
         driver: overlay
