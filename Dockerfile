@@ -11,6 +11,9 @@ USER root
 
 #Install ElasticSearch plugin
 RUN ["gem", "install", "fluent-plugin-elasticsearch", "--no-rdoc", "--no-ri", "--version", "1.9.5"]
+RUN apt-get update && \
+    apt-get install -y curl && \
+    rm -rf /var/lib/apt/lists/*;
 
 WORKDIR /fluentd/etc
 
