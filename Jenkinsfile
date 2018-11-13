@@ -1,4 +1,4 @@
-@Library('ascent') _
+@Library('ascent@docker-deploy-prod') _
 
 dockerPipeline {
     dockerBuilds = [
