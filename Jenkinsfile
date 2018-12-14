@@ -1,4 +1,4 @@
-@Library('ascent@static-perf') _
+@Library('ascent') _
 
 dockerPipeline {
     dockerBuilds = [
