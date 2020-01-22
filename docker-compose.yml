@@ -4,11 +4,13 @@ services:
         image: ascent/fluentd:${RELEASE_VERSION:-latest}
         ports:
             - '24224:24224'
+            - '24231:24231'
         environment:
             - ES_HOST=${ES_HOST:-https://vpc-logging-dev-2q6xjy5atrwwyc7mw7cu3c2uae.us-gov-west-1.es.amazonaws.com}
             - ES_PORT=443
             - SCHEME=https
             - SSL_VERIFY=true
+            - PROMETHEUS_HOST=10.247.81.132
         networks:
             - logging
         deploy:
@@ -16,6 +18,13 @@ services:
             placement:
                 constraints:
                     - node.role == worker
+            update_config:
+              parallelism: 1
+              delay: 10s
+              failure_action: pause
+              monitor: 10s
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:24231/metrics"]
 networks:
     logging:
         driver: overlay
